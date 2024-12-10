@@ -97,19 +97,19 @@ app.post("/auth/login", express.json(), validateData(loginSchema), logger, async
             res.send("Unauthorized");
             return;
         }
+        //Génération du token avec l'Id et le rôle
+        const payload = { id: rows[0].id, role: rows[0].role };
+        const token = jwt.sign(payload, process.env.JWT_KEY);
+
+        //Envoi du token
+        res.status(200);
+        res.json({ token });
     }catch(error){
         res.status(500);
         res.json({ error: error.message });
         return;
     }
     
-    //Génération du token avec l'Id et le rôle
-    const payload = { id: rows[0].id, role: rows[0].role };
-    const token = jwt.sign(payload, process.env.JWT_KEY);
-
-    //Envoi du token
-    res.status(200);
-    res.json({ token });
     return;
 });
 
