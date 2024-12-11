@@ -409,20 +409,18 @@ app.get('/sessions/:id(\\d+)/emargement', logger, checkAuth, async(req, res) => 
         return;
     }
 
-    //Envoyer les émargements
+    //Récupérer les étudiants émargé à la session
     try{
         const [rows] = await db.query(
-            "SELECT * FROM emargements WHERE session_id = ?", 
+            "SELECT users.id, name, email, role, session_id, status FROM users INNER JOIN emargements ON users.id = emargements.etudiant_id WHERE session_id = ?",
             [id]
         );
         res.status(200);
-        res.json(rows);
+        res.send(rows);
     }catch(error){
         res.status(500);
         res.json({ error: error.message });
     }
-    
-    return;
 });
 
 
