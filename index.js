@@ -202,7 +202,7 @@ const modifySessionSchema = z.object({
     title: z.string().min(2),
     date: z.string().date()
 });
-app.put('/sessions/:id(\\d+)', express.json(), validateData(modifySessionSchema), logger, checkAuth, async (req, res) => {az
+app.put('/sessions/:id(\\d+)', express.json(), validateData(modifySessionSchema), logger, checkAuth, async (req, res) => {
     const data = req.body;
     const id = parseInt(req.params.id);
     const user_id = req.user.id;
