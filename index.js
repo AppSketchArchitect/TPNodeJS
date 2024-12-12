@@ -80,7 +80,7 @@ app.post("/auth/login", express.json(), validateData(loginSchema), logger, async
     //Vérifier l'existence de l'utilisateur et si le mot de passe est correct
     try{
         const [rows] = await db.query(
-            "SELECT id, password FROM users WHERE email = ?",
+            "SELECT id, password, role FROM users WHERE email = ?",
             [data.email]
         );
         if (rows.length === 0) {
@@ -202,7 +202,7 @@ const modifySessionSchema = z.object({
     title: z.string().min(2),
     date: z.string().date()
 });
-app.put('/sessions/:id(\\d+)', express.json(), validateData(modifySessionSchema), logger, checkAuth, async (req, res) => {
+app.put('/sessions/:id(\\d+)', express.json(), validateData(modifySessionSchema), logger, checkAuth, async (req, res) => {az
     const data = req.body;
     const id = parseInt(req.params.id);
     const user_id = req.user.id;
